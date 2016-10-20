@@ -1,0 +1,36 @@
+{
+    "env": "dev",
+    "envs": {
+        "dev": {
+            "port": 29506,
+            "log": {
+                "mode": 3, // 0: none, 1: localfile, 2: collector (数字代表bit位)
+                "level": 15 // 0: none, 1: debug, 2: warn 4: error (数字代表bit位)
+            },
+
+            "": null // placeholder
+        },
+
+        "test": {
+            "port": 29506,
+            "log": {
+                "mode": 3, // 0: none, 1: localfile, 2: collector (数字代表bit位)
+                "level": 15 // 0: none, 1: debug, 2: warn 4: error (数字代表bit位)
+            },
+
+            "": null // placeholder
+        },
+
+        "prod": {
+            "port": 29506,
+            "log": {
+                "mode": 2, // 0: none, 1: localfile, 2: collector (数字代表bit位)
+                "level": 14 // 0: none, 1: debug, 2: warn 4: error (数字代表bit位)
+            },
+
+            "": null // placeholder
+        },
+
+        "": null // placeholder
+    }
+}
