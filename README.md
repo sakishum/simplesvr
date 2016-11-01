@@ -18,7 +18,7 @@
 
 ## 注意
 * 加入新依赖库时，只需要在main/main.cpp里加入库头文件，修改Makefile文件
-* api目录提供api.go示例代码用于和simplesvr服务通信
+* api目录提供api.go，api.php示例代码用于和simplesvr服务通信
 
 ## LICENSE
 simplesvr is licensed under the Apache Licence, Version 2.0
