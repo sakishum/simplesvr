@@ -2,27 +2,20 @@
 // author: simplejia
 // date: 2015/10/16
 #include <stdarg.h>
-#include <fstream>
 #include <climits>
-#include <stdarg.h>
 #include <errno.h>
-#include <fstream>
-#include <sys/wait.h>
-#include <sys/timerfd.h>
-#include <fcntl.h>
-#include <climits>
 #include <regex.h>
 #include <sys/wait.h>
 #include <sys/timerfd.h>
+#include <sys/un.h>
+#include <fcntl.h>
 
 #include <net/if.h>
 #include <ifaddrs.h>
-#include <sys/un.h>
 #include <arpa/inet.h>
-#include <net/if.h>
 #include <netdb.h>
-#include <ifaddrs.h>
-#include <sys/un.h>
+
+#include <fstream>
 
 using namespace std;
 

@@ -22,10 +22,8 @@ func Demo(args string, server string) (retStr string, err error) {
 	// encode
 	cmd := "Demo"
 	data := []byte(fmt.Sprintf("%s\x00%s", cmd, args))
-	conn.SetWriteDeadline(time.Now().Add(time.Millisecond * 5))
 	_, err = conn.Write(data)
 	if err != nil {
-		err = nil
 		return
 	}
 
@@ -33,7 +31,7 @@ func Demo(args string, server string) (retStr string, err error) {
 	conn.SetReadDeadline(time.Now().Add(time.Millisecond * 80))
 	readLen, err := conn.Read(result)
 	if err != nil || readLen <= 0 {
-		err = fmt.Errorf("Demo() ReadTimeout %d, %v", readLen, err)
+		err = fmt.Errorf("Demo() conn.Read %d, %v", readLen, err)
 		return
 	}
 

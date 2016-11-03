@@ -8,8 +8,11 @@ endif
 $(info current env: $(version))
 
 
-INC = -I. -I../dep -I../dep/pdu -I../dep/pdu/mcall
-LIB = -lrt -lpthread -lm -ldl -rdynamic -L../dep/simplehttp -lsimplehttp -L../dep/simplecache -lsimplecache -L../dep/jsoncpp -ljsoncpp
+INC = -I. -I../dep
+LIB = -lrt -lpthread -lm -ldl -rdynamic \
+	  -L../dep/simplehttp -lsimplehttp \
+	  -L../dep/simplecache -lsimplecache \
+	  -L../dep/jsoncpp -ljsoncpp
 
 C_FLAGS += -Wall
 

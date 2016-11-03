@@ -1,8 +1,9 @@
 #ifndef __LOG_H__
 #define __LOG_H__
 
-const char *g_module = "demo";
-const int g_agent_port = 28701;
+const string g_module = "demo";
+const string g_server_ip = "127.0.0.1";
+const int g_server_port = 28702;
 
 #define VAR_DATA(buf, format)                                   \
     do {                                                        \
@@ -17,7 +18,7 @@ string datetime()
     time_t now;
     time(&now);
     struct tm* t=localtime(&now);
-    char timestr[80];
+    char timestr[32];
     strftime(timestr, sizeof(timestr), "%Y-%m-%d %H:%M:%S", t);
     return timestr;
 }
@@ -30,29 +31,21 @@ class Log {
             warcate = module + "," + "logwar" + "," + local_ip + "," + subcate;
             errcate = module + "," + "logerr" + "," + local_ip + "," + subcate;
             infocate = module + "," + "loginfo" + "," + local_ip + "," + subcate;
-            m_sockfd = -1;
         }
 
         void Do(const string& cate, const char *content) {
-            if (m_sockfd < 0) {
-                m_sockfd=socket(AF_INET, SOCK_DGRAM, 0);
-                if (m_sockfd < 0) {
-                    cerr<<"Log:Do() socket "<<strerror(errno)<<endl;
-                    return;
-                }
-                struct timeval tv;
-                tv.tv_sec = 80/1000;
-                tv.tv_usec = 0;
-                if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv)) < 0) {
-                    cerr<<"Log:Do() setsockopt(sndtimeo) error "<<strerror(errno)<<endl;
-                }
-                m_servaddr.sin_family = AF_INET;
-                m_servaddr.sin_port = htons(g_agent_port);
-                m_servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-                connect(m_sockfd, (struct sockaddr *)&m_servaddr, sizeof(m_servaddr));
+            int sockfd=socket(AF_INET, SOCK_DGRAM, 0);
+            if (sockfd < 0) {
+                cerr<<"Log:Do() socket "<<strerror(errno)<<endl;
+                return;
             }
+            struct sockaddr_in m_servaddr;
+            m_servaddr.sin_family = AF_INET;
+            m_servaddr.sin_port = htons(g_server_port);
+            m_servaddr.sin_addr.s_addr = inet_addr(g_server_ip.c_str());
             string buf = cate + "," + content;
-            send(m_sockfd, buf.c_str(), buf.size(), 0);
+            sendto(sockfd, buf.c_str(), buf.size(), 0, (struct sockaddr *)&m_servaddr, sizeof(m_servaddr));
+            close(sockfd);
         }
 
         void Debug(const char *format, ...) {
@@ -120,13 +113,10 @@ class Log {
         }
 
     private:
-        int m_sockfd;
-        struct sockaddr_in m_servaddr;
         string dbgcate;
         string warcate;
         string errcate;
         string infocate;
 };
-
 
 #endif
