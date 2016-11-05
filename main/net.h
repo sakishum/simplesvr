@@ -2,7 +2,7 @@
 #define __NET_H__
 
 int listen_socket = -1;
-extern Log *log_main;
+extern Clog *log_main;
 
 int make_server_socket()
 {

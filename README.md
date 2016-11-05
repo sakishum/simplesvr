@@ -20,6 +20,11 @@
 * 加入新依赖库时，只需要在main/main.cpp里加入库头文件，修改Makefile文件
 * api目录提供api.go，api.php示例代码用于和simplesvr服务通信
 
+## 启动方式
+* simplesvr prod
+  * prod是可选参数，代表启动配置文件里指定的运行环境，默认: prod
+  * 建议通过[cmonitor](http://github.com/simplejia/cmonitor)来启动管理
+
 ## LICENSE
 simplesvr is licensed under the Apache Licence, Version 2.0
 (http://www.apache.org/licenses/LICENSE-2.0.html)

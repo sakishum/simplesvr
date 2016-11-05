@@ -1,7 +1,7 @@
 #ifndef __PROC_H__
 #define __PROC_H__
 
-Log *log_proc;
+Clog *log_proc;
 
 void* timer_thread(void *p)
 {
@@ -96,7 +96,7 @@ void proc_child(int num)
 {
     char sub_cate[128];
     sprintf(sub_cate, "%d", num);
-    log_proc = new Log(g_module, sub_cate);
+    log_proc = new Clog(g_module, sub_cate);
 
     set_affinity(num);
 

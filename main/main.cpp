@@ -15,6 +15,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -25,7 +26,7 @@ using namespace std;
 
 #include "util.h"
 #include "conf.h"
-#include "log.h"
+#include "clog.h"
 #include "net.h"
 
 // busi dependencies file here
@@ -33,14 +34,14 @@ using namespace std;
 
 #include "proc.h"
 
-Log *log_main;
+Clog *log_main;
 
-int main(int /*argc*/, char** /*argv*/) 
+int main(int argc, char *argv[]) 
 {
-    log_main = new Log(g_module, "main");
+    log_main = new Clog(g_module, "main");
     log_main->Info("main()");
 
-    if (parse_conf() < 0) {
+    if (parse_conf(argc, argv) < 0) {
         log_main->Error("parse_conf()");
         return -1;
     }

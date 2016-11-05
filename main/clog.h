@@ -1,5 +1,5 @@
-#ifndef __LOG_H__
-#define __LOG_H__
+#ifndef __CLOG_H__
+#define __CLOG_H__
 
 const string g_module = "demo";
 const string g_server_ip = "127.0.0.1";
@@ -23,9 +23,9 @@ string datetime()
     return timestr;
 }
 
-class Log {
+class Clog {
     public:
-        Log(string module, string subcate) {
+        Clog(string module, string subcate) {
             string local_ip = get_localip();
             dbgcate = module + "," + "logdbg" + "," + local_ip + "," + subcate;
             warcate = module + "," + "logwar" + "," + local_ip + "," + subcate;
@@ -36,7 +36,7 @@ class Log {
         void Do(const string& cate, const char *content) {
             int sockfd=socket(AF_INET, SOCK_DGRAM, 0);
             if (sockfd < 0) {
-                cerr<<"Log:Do() socket "<<strerror(errno)<<endl;
+                cerr<<"Clog:Do() socket "<<strerror(errno)<<endl;
                 return;
             }
             struct sockaddr_in m_servaddr;
@@ -49,14 +49,14 @@ class Log {
         }
 
         void Debug(const char *format, ...) {
-            if ((CONF.log.level & 1) != 0) {
+            if ((CONF.clog.level & 1) != 0) {
                 char *tmp_buf;
                 VAR_DATA(tmp_buf, format);
                 if (tmp_buf != NULL) {
-                    if ((CONF.log.mode & 1) != 0) {
+                    if ((CONF.clog.mode & 1) != 0) {
                         cout<<tmp_buf<<'['<<datetime()<<']'<<endl;
                     }
-                    if ((CONF.log.mode & 2) != 0) {
+                    if ((CONF.clog.mode & 2) != 0) {
                         Do(dbgcate, tmp_buf);
                     }
                     free(tmp_buf);
@@ -65,14 +65,14 @@ class Log {
         }
 
         void Warn(const char *format, ...) {
-            if ((CONF.log.level & 2) != 0) {
+            if ((CONF.clog.level & 2) != 0) {
                 char *tmp_buf;
                 VAR_DATA(tmp_buf, format);
                 if (tmp_buf != NULL) {
-                    if ((CONF.log.mode & 1) != 0) {
+                    if ((CONF.clog.mode & 1) != 0) {
                         cout<<tmp_buf<<'['<<datetime()<<']'<<endl;
                     }
-                    if ((CONF.log.mode & 2) != 0) {
+                    if ((CONF.clog.mode & 2) != 0) {
                         Do(warcate, tmp_buf);
                     }
                     free(tmp_buf);
@@ -81,14 +81,14 @@ class Log {
         }
 
         void Error(const char *format, ...) {
-            if ((CONF.log.level & 4) != 0) {
+            if ((CONF.clog.level & 4) != 0) {
                 char *tmp_buf;
                 VAR_DATA(tmp_buf, format);
                 if (tmp_buf != NULL) {
-                    if ((CONF.log.mode & 1) != 0) {
+                    if ((CONF.clog.mode & 1) != 0) {
                         cerr<<tmp_buf<<'['<<datetime()<<']'<<endl;
                     }
-                    if ((CONF.log.mode & 2) != 0) {
+                    if ((CONF.clog.mode & 2) != 0) {
                         Do(errcate, tmp_buf);
                     }
                     free(tmp_buf);
@@ -97,14 +97,14 @@ class Log {
         }
 
         void Info(const char *format, ...) {
-            if ((CONF.log.level & 8) != 0) {
+            if ((CONF.clog.level & 8) != 0) {
                 char *tmp_buf;
                 VAR_DATA(tmp_buf, format);
                 if (tmp_buf != NULL) {
-                    if ((CONF.log.mode & 1) != 0) {
+                    if ((CONF.clog.mode & 1) != 0) {
                         cout<<tmp_buf<<'['<<datetime()<<']'<<endl;
                     }
-                    if ((CONF.log.mode & 2) != 0) {
+                    if ((CONF.clog.mode & 2) != 0) {
                         Do(infocate, tmp_buf);
                     }
                     free(tmp_buf);
