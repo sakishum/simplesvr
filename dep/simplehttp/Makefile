@@ -1,4 +1,4 @@
-CC = gcc -O3 -Wall -fPIC -Wno-strict-overflow
+CC = g++ -O3 -Wall -fPIC -Wno-strict-overflow
 INCLUDE = -I.
 
 OUTPUT = libsimplehttp.a
