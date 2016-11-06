@@ -24,7 +24,3 @@
 * simplesvr prod
   * prod是可选参数，代表启动配置文件里指定的运行环境，默认: prod
   * 建议通过[cmonitor](http://github.com/simplejia/cmonitor)来启动管理
-
-## LICENSE
-simplesvr is licensed under the Apache Licence, Version 2.0
-(http://www.apache.org/licenses/LICENSE-2.0.html)
