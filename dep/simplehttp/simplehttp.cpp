@@ -12,9 +12,8 @@
 int make_client_socket(int mtimeout)
 {
     int sock;
-    sock = socket(AF_INET , SOCK_STREAM , 0);
+    sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == -1) {
-        cerr<<"make_client_socket() socket error: "<<strerror(errno)<<endl;
         return -1;
     }
 
@@ -22,7 +21,6 @@ int make_client_socket(int mtimeout)
     tv.tv_sec = mtimeout/1000;
     tv.tv_usec = mtimeout%1000 * 1000;
     if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv))) {
-        cerr<<"make_client_socket() setsockopt(rcvtimeo) error: "<<strerror(errno)<<endl;
         close(sock);
         return -1;
     }
@@ -32,30 +30,25 @@ int make_client_socket(int mtimeout)
 
 int connect_tmo(int sockfd, const char *ip, int port, int mtimeout)
 {
-    struct addrinfo *airoot, hints;
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = PF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
-    char strPort[8];
-    snprintf(strPort, sizeof(strPort), "%d", port);
-    int r = getaddrinfo(ip, strPort, &hints, &airoot);
-    if (r == -1) {
-        return -1;
-    }
+    sockaddr_in svraddr;
+    svraddr.sin_family = AF_INET;
+    svraddr.sin_port = htons(port);
+    svraddr.sin_addr.s_addr = inet_addr(ip);
 
-    int error=-1, len=sizeof(int);
-    timeval tm;
-    fd_set set;
     unsigned long ul = 1;
     ioctl(sockfd, FIONBIO, &ul);
     bool ret = true;
-    if (connect(sockfd, airoot->ai_addr, airoot->ai_addrlen) == -1) {
+    if (connect(sockfd, (struct sockaddr *)&svraddr, sizeof(svraddr)) != 0) {
+        timeval tm;
         tm.tv_sec = mtimeout/1000;
         tm.tv_usec = mtimeout%1000 * 1000;
+        fd_set set;
         FD_ZERO(&set);
         FD_SET(sockfd, &set);
+        int error=0;
+        socklen_t len=sizeof(error);
         if (select(sockfd+1, NULL, &set, NULL, &tm) > 0) {
-            getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &error, (socklen_t *)&len);
+            getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &error, &len);
             if (error != 0) {
                 ret = false;
             }
@@ -65,8 +58,6 @@ int connect_tmo(int sockfd, const char *ip, int port, int mtimeout)
     }
     ul = 0;
     ioctl(sockfd, FIONBIO, &ul);
-
-    freeaddrinfo(airoot);
 
     if(!ret) {
         return -1;
