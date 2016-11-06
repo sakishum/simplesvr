@@ -41,6 +41,8 @@ int main(int argc, char *argv[])
     log_main = new Clog(g_module, "main");
     log_main->Info("main()");
 
+    simple_cache_init(10000);
+
     if (parse_conf(argc, argv) < 0) {
         log_main->Error("parse_conf()");
         return -1;

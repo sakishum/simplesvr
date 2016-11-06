@@ -7,6 +7,7 @@
 
 using namespace std;
 
+int simple_cache_init(int capacity);
 // @return 0: success 1: no data or expire data -1: error
 int simple_cache_get(string &key, string &data);
 int simple_cache_set(string &key, string &data, int expire);
