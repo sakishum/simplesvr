@@ -25,7 +25,6 @@ class cache_data_list
         int init(int capacity);
         int put(const cache_data *pd);
         int get(const string &key, cache_data **ppd);
-        void print();
 
     private:
         struct list_head head;
@@ -88,19 +87,6 @@ int cache_data_list::get(const string &key, cache_data **ppd)
     }
 
     return 0;
-}
-
-void cache_data_list::print() 
-{
-    struct list_head *list;
-    cache_data *pd;
-    list_for_each_entry_safe_l(pd, list, &head, list) {
-        printf("cache_data:----------\n"
-               "key                 = %s\n"
-               "value               = %s\n"
-               "expire              = %d\n"
-               ,pd->key.c_str(), pd->value.c_str(), pd->expire);
-    }
 }
 
 cache_data_list g_cache;

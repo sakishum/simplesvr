@@ -1,4 +1,4 @@
-CC = g++ -O3 -Wall -fPIC -Wno-strict-overflow
+CC = g++ -O3 -Wall -fPIC -Wno-strict-overflow -Wno-invalid-offsetof
 INCLUDE = -I.
 
 OUTPUT = libsimplecache.a
