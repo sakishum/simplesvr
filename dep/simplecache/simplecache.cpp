@@ -65,7 +65,9 @@ int cache_data_list::put(const cache_data *pd)
     cache_data *pd_tmp;
     pd_tmp = list_entry(head.next, cache_data, list);
 
-    table.erase(pd_tmp->key);
+    if(!pd_tmp->key.empty()) {
+        table.erase(pd_tmp->key);
+    }
 
     *pd_tmp = *pd;
     table[pd_tmp->key] = pd_tmp;
