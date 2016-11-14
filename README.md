@@ -1,4 +1,33 @@
 # [simplesvr](http://github.com/simplejia/simplesvr) (simple udp server)
+## Functions：
+* Very simple c/c++ service, multiple processes, udp communication, without event driven  model complexity, without data sharing problems caused by multiple threads (the effect on performance caused by lock), simple code structure and reaching business directly.
+* Applicable situations: with heavy business logic, pursuing high throughout and tolerance to unreliability caused by udp. (already having c lib and not convenient to use golang to implement)
+* Newbie of C can get started quickly
+
+## Features
+* The code structure is simple with only one .cpp file: main/main.cpp. All other files are .h files.
+* Protocol is simple, using '\x00' to separate fields
+* Multiple processes, starting multiple business child process at the same time. Any process(including parent process) exits, all other processes will exit.
+* Support configuration files with json format
+* Able to record logs and alarm via clog
+* Providing many useful small components, including:
+  * Simple and efficient http get and post operation components
+  * Local cache components similar to go lc(supporting lru, able to return to old data even the data is expired which is very useful when it fails to get new data)
+* Providing some small library functions, such as: timer, getting inner ip address
+
+
+## Notice
+* While adding new dependencies, we just need add header file in main/main.cpp and revise Makefile files.
+* Api directory provides api.go and api.php example code which is used to communicate with simplesvr service.
+
+## Starting
+* simplesvr prod
+  * Prod is an optional parameter, standing for starting the designated running environment in configuration files, default: prod
+  * Recommending using [cmonitor](http://github.com/simplejia/cmonitor) to manage
+
+---
+
+# [simplesvr](http://github.com/simplejia/simplesvr) (simple udp server)
 ## 功能：
 * 超简单c/c++服务，多进程，udp通信，没有高深复杂的事件驱动，没有多线程带来的数据共享问题（加锁对性能的影响），代码结构简单，直达业务
 * 适用场景：业务逻辑重，追求高吞吐量，容忍udp带来的不可靠。（已有c lib库，不方便采用golang包装时）
